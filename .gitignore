@@ -1,3 +1,8 @@
+# Sensitive Files
+.env
+.env.*
+! .env.example
+
 # Virtual Environments
 .venv/
 venv/
@@ -12,7 +17,16 @@ __pycache__/
 # Large/Temporary Files
 *.log
 *.xlsx
+*.csv
+*.pt
+*.bin
+*.out
 sbllm_repo/.git/
 sbllm_repo/sbllm/.venv/
 sbllm_repo/VecIntrinBench/.git
 rvv-bench/.git
+outputs/
+logs/
+temp/
+tmp/
+
