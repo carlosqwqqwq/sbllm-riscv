@@ -1,0 +1,1 @@
+{"idx": 0, "dataset": "rvv-bench", "filename": "ascii_to_utf16.c", "benchmark_name": "ascii_to_utf16", "code_v0_no_empty_lines": "void\nascii_to_utf16_scalar(uint16_t *restrict dest, uint8_t const *restrict src, size_t len)\n{\n\twhile (len--) BENCH_CLOBBER(), *dest++ = *src++;\n}", "code_v1_no_empty_lines": "", "input": "", "lang": "c"}

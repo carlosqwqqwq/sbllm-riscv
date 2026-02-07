@@ -1,0 +1,18 @@
+# Virtual Environments
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+
+# IDEs
+.vscode/
+.idea/
+
+# Large/Temporary Files
+*.log
+*.xlsx
+sbllm_repo/.git/
+sbllm_repo/sbllm/.venv/
+sbllm_repo/VecIntrinBench/.git
+rvv-bench/.git
