@@ -33,6 +33,9 @@ python start_evaluation.py standard
 
 - **RVV-Bench**: `python start_evaluation.py rvv-bench [--full]`
 - **VecIntrin**: `python start_evaluation.py vecintrin`
+- **RVV-Bench (完整评估)**: `bash run_rvv_full_eval.sh`
+- **VecIntrin (完整评估)**: `bash run_vecintrin_full_eval.sh`
+- **所有基准测试 (完整评估)**: `bash run_full_benchmarks.sh` (Linux) 或 `.\run_full_benchmarks.ps1` (Windows)
 
 该脚本已完全替代了旧版的 `start_evaluation.bat` 和 `run_all.bat`。
 

@@ -21,29 +21,34 @@
 ## 🎯 核心特性
 
 ### 1. 注释驱动的优化建议生成
+
 - ✅ 使用 LLM 分析 RISC-V 代码注释，提取功能意图和优化方向
 - ✅ 生成结构化的优化建议（review comments），指导后续代码生成
 - ✅ 支持多种 LLM 模型（ChatGPT、GPT-4、Gemini、DeepSeek、CodeLlama）
 
 ### 2. QEMU 仿真环境评估
+
 - ✅ 在真实的 QEMU RISC-V 仿真环境中运行和测试代码
 - ✅ 评估功能正确性、执行时间和代码体积三个维度
 - ✅ 支持汇编代码和 C 代码的编译与执行
 - ✅ 功能正确性检查：输出比较、数值容差、返回码验证
 
 ### 3. 混合检索知识库
+
 - ✅ 结合 BM25 关键词检索和向量语义检索
 - ✅ 从人工优化补丁数据集中检索 Similar Pattern 和 Different Pattern
 - ✅ 支持灵活的检索策略配置（BM25 / 向量 / 混合）
 - ✅ FAISS 向量索引支持，快速检索
 
 ### 4. 遗传算法迭代优化
+
 - ✅ 使用 Similar Pattern 作为主导优化方向
 - ✅ 引入 Different Pattern 作为"突变"操作，探索新的优化路径
 - ✅ 迭代优化直到性能收敛
 - ✅ 自动停止机制：当优化收敛时自动停止迭代
 
 ### 5. 性能优化特性
+
 - ✅ **编译缓存**：基于代码哈希的编译结果缓存，避免重复编译
 - ✅ **并行评估**：使用线程池并行评估多个候选代码
 - ✅ **智能缓存**：自动缓存编译结果，显著提升评估速度（5-10 倍提升）
@@ -154,6 +159,7 @@
 ## 环境要求
 
 ### 系统要求
+
 - Python 3.9.12
 - Linux 系统（推荐 Ubuntu 20.04+）
 - QEMU（qemu-riscv64）
@@ -168,6 +174,7 @@ pip install -r requirement.txt
 ```
 
 主要依赖包括：
+
 - `jsonlines==4.0.0`
 - `numpy==1.26.1`
 - `openai==0.28.1`
@@ -230,11 +237,12 @@ deepseek_api_keys = [
 ```
 
 **支持的模型**：
+
 - `deepseek`: 使用 DeepSeek API（**默认推荐**）
   - 使用 OpenAI 兼容格式
   - base_url: `https://api.deepseek.com`
   - model: `deepseek-chat` (对应 DeepSeek-V3.2-Exp 的非思考模式)
-  - 参考文档: https://platform.deepseek.com/api-docs/
+  - 参考文档: <https://platform.deepseek.com/api-docs/>
 - `chatgpt` / `gpt4`: 使用 OpenAI API
 - `gemini`: 使用 Google Gemini API
 - `codellama`: 使用 DeepInfra CodeLlama API
@@ -289,6 +297,7 @@ bash test_riscv.sh \
 **注意**：测试脚本默认使用 `deepseek` 模型，确保已在 `evol_query.py` 中配置 DeepSeek API 密钥。
 
 **测试脚本功能**：
+
 - ✅ 自动环境验证
 - ✅ 创建测试数据
 - ✅ 运行一次简化的优化流程
@@ -301,6 +310,7 @@ bash test_riscv.sh \
 #### 前置准备
 
 1. **安装依赖**
+
    ```bash
    # 安装 Python 依赖
    pip install -r requirement.txt
@@ -313,8 +323,9 @@ bash test_riscv.sh \
    ```
 
 2. **配置 API 密钥**
-   
+
    编辑 `sbllm/sbllm/evol_query.py`，填入你的 API 密钥：
+
    ```python
    openai_api_keys = ['your-openai-api-key']
    gemini_api_keys = ["your-gemini-api-key"]
@@ -322,8 +333,9 @@ bash test_riscv.sh \
    ```
 
 3. **准备数据**
-   
+
    创建数据目录并准备数据文件：
+
    ```bash
    mkdir -p processed_data/riscv
    # 将测试数据放入 processed_data/riscv/test.jsonl
@@ -342,6 +354,7 @@ python validate_riscv_setup.py \
 ```
 
 **验证内容**：
+
 - ✅ QEMU 可执行文件是否存在并可运行
 - ✅ RISC-V GCC 工具链是否完整（gcc, as, objdump, size）
 - ✅ 数据文件是否存在且格式正确（test.jsonl, train.jsonl）
@@ -350,6 +363,7 @@ python validate_riscv_setup.py \
 - ✅ Python 依赖包是否已安装
 
 **输出示例**：
+
 ```
 ============================================================
 RISC-V 环境验证
@@ -383,6 +397,7 @@ bash run_riscv.sh \
 **注意**：脚本默认使用 `deepseek` 模型，确保已在 `evol_query.py` 中配置 DeepSeek API 密钥。
 
 **脚本自动执行**：
+
 1. ✅ 环境验证（调用 `validate_riscv_setup.py`）
 2. ✅ 初始化结果（如需要，调用 `initial.py`）
 3. ✅ 迭代优化循环（默认 4 次迭代）
@@ -392,6 +407,7 @@ bash run_riscv.sh \
 4. ✅ 最终评估（top1, top3, top5）
 
 **运行时间**：
+
 - 单个代码优化：约 5-15 分钟（取决于候选数量和迭代次数）
 - 批量优化（100 个代码）：约 2-4 小时
 
@@ -423,6 +439,7 @@ bash run_riscv.sh \
 ```
 
 **特点**：
+
 - ⚡ 速度快：约 2-5 分钟完成
 - 🎯 适合：功能验证、快速测试
 
@@ -441,7 +458,36 @@ bash run_riscv.sh \
     --vector_index_path ../processed_data/riscv/faiss_index.bin
 ```
 
+#### 场景 3: 完整基准测试评估 (RVV-Bench / VecIntrinBench)
+
+适用于运行完整的基准测试套件（包含数据准备、生成和评估）：
+
+**RVV-Bench 完整评估**:
+
+```bash
+# 在 Docker 环境中或 sbllm_repo 目录下
+bash run_rvv_full_eval.sh
+```
+
+**VecIntrinBench 完整评估**:
+
+```bash
+# 在 Docker 环境中或 sbllm_repo 目录下
+bash run_vecintrin_full_eval.sh
+```
+
+**所有基准测试完整评估 (一键运行)**:
+
+```bash
+# Linux / Docker
+bash run_full_benchmarks.sh
+
+# Windows (Host)
+.\run_full_benchmarks.ps1
+```
+
 **特点**：
+
 - ⚖️ 平衡：速度与效果的最佳平衡
 - 🎯 适合：生产环境、实际项目
 
@@ -462,6 +508,7 @@ bash run_riscv.sh \
 ```
 
 **特点**：
+
 - 🔬 深度：探索更多优化可能性
 - 🎯 适合：研究、论文实验、关键代码优化
 
@@ -542,6 +589,7 @@ python merge.py --iteration 3 ...
 #### 示例 1: 优化单个 RISC-V 汇编函数
 
 **输入代码**（`test.jsonl`）：
+
 ```json
 {
     "idx": 0,
@@ -551,6 +599,7 @@ python merge.py --iteration 3 ...
 ```
 
 **运行优化**：
+
 ```bash
 bash run_riscv.sh \
     --qemu_path /usr/bin/qemu-riscv64 \
@@ -558,6 +607,7 @@ bash run_riscv.sh \
 ```
 
 **输出结果**：
+
 - 优化后的代码（功能正确，性能提升）
 - 执行时间对比
 - 代码体积对比
@@ -602,6 +652,7 @@ bash run_riscv.sh \
 **支持的模型**：`chatgpt`, `gpt4`, `gemini`, `deepseek`, `codellama`
 
 **检索方法**：
+
 - `bm25` - 仅使用 BM25 关键词检索
 - `vector` - 仅使用向量语义检索
 - `hybrid` - 混合检索（BM25 + 向量，推荐）
@@ -622,10 +673,12 @@ bash run_riscv.sh \
 **功能**：在第一次迭代时，分析代码注释并生成优化建议，然后基于建议生成多个优化候选。
 
 **关键函数**：
+
 - `generate_review_comments(code, cfg)`: 生成优化建议
 - `read_file(cfg)`: 在第一次迭代时集成 review comments 生成流程
 
 **工作流程**：
+
 1. 调用 `generate_review_comments()` 分析代码注释
 2. 使用 `_PROMPT_FOR_REVIEW` prompt 模板
 3. 将 review comments 与原始代码结合，使用 `_PROMPT_FOR_CANDIDATES` 生成候选代码
@@ -635,21 +688,25 @@ bash run_riscv.sh \
 **功能**：使用 QEMU 仿真环境评估候选代码的性能和正确性。
 
 **关键类**：
+
 - `QEMURISCVEvaluator`: QEMU RISC-V 评估器
 
 **关键方法**：
+
 - `compile_to_riscv_binary()`: 编译 RISC-V 代码为二进制（支持编译缓存）
 - `run_and_measure()`: 运行并测量执行时间和代码大小，验证功能正确性
 - `evaluate_candidates()`: 批量评估候选代码
 - `evaluate_candidates_parallel()`: 并行评估多个候选代码（性能优化）
 
 **功能正确性检查**：
+
 - ✅ **输出比较**：比较优化代码与原始代码的输出结果
 - ✅ **数值容差**：支持浮点数容差比较（默认 1e-6）
 - ✅ **返回码检查**：检查程序执行返回码
 - ✅ **多轮验证**：多次运行取最稳定的输出
 
 **评估指标**：
+
 - 功能正确性（is_correct）- 通过输出比较和返回码验证
 - 执行时间（execution_time）- 多次运行的平均值
 - 代码大小（code_size）- 使用 size 或 objdump 获取
@@ -657,6 +714,7 @@ bash run_riscv.sh \
 - 体积缩减率（size_reduction_ratio）
 
 **性能优化特性**：
+
 - ✅ **编译缓存**：基于代码哈希的编译结果缓存，避免重复编译
 - ✅ **并行评估**：使用线程池并行评估多个候选代码
 - ✅ **智能缓存**：自动缓存编译结果，显著提升评估速度
@@ -666,11 +724,13 @@ bash run_riscv.sh \
 **功能**：从优化补丁知识库中检索 Similar Pattern 和 Different Pattern。
 
 **检索策略**：
+
 - **BM25 检索**：基于关键词匹配
 - **向量检索**：基于语义相似度（使用 sentence-transformers）
 - **混合检索**：融合 BM25 和向量检索结果
 
 **关键修改**：
+
 - `main()`: 加载 FAISS 向量索引和 embedding 模型
 - `process()`: 实现混合检索逻辑，检索 Similar 和 Different Pattern
 - 在结果中存储检索来源信息
@@ -680,12 +740,15 @@ bash run_riscv.sh \
 **功能**：使用遗传算法迭代优化代码，结合 Similar 和 Different Pattern。
 
 **关键函数**：
+
 - `prompt_construction()`: 构建迭代优化的 prompt
 
 **Prompt 模板**：
+
 - `_PROMPT_FOR_RISCV_EVOLUTION`: 遗传迭代优化的 prompt
 
 **工作流程**：
+
 1. 分析原始代码和当前优化版本
 2. 识别未使用的优化机会（Mutation）
 3. 结合 Similar 和 Different Pattern 生成新版本
@@ -833,11 +896,13 @@ output/riscv/riscv_optimization/
 #### 1. QEMU 路径错误
 
 **错误信息**：
+
 ```
 FileNotFoundError: QEMU path not found: /usr/bin/qemu-riscv64
 ```
 
 **解决方案**：
+
 ```bash
 # 1. 检查 QEMU 是否安装
 which qemu-riscv64
@@ -854,11 +919,13 @@ bash run_riscv.sh \
 #### 2. RISC-V GCC 工具链错误
 
 **错误信息**：
+
 ```
 FileNotFoundError: RISC-V GCC path not found: /opt/riscv64-unknown-linux-gnu/bin/riscv64-unknown-linux-gnu-gcc
 ```
 
 **解决方案**：
+
 ```bash
 # 1. 确认工具链已安装
 ls /opt/riscv64-unknown-linux-gnu/bin/
@@ -876,11 +943,13 @@ bash run_riscv.sh \
 #### 3. 数据文件缺失或格式错误
 
 **错误信息**：
+
 ```
 FileNotFoundError: Test data file not found: ../processed_data/riscv/test.jsonl
 ```
 
 **解决方案**：
+
 ```bash
 # 1. 检查文件是否存在
 ls -la processed_data/riscv/test.jsonl
@@ -893,6 +962,7 @@ python -c "import jsonlines; f=jsonlines.open('processed_data/riscv/test.jsonl')
 ```
 
 **数据格式要求**：
+
 - 文件必须是 JSONL 格式（每行一个 JSON 对象）
 - 测试数据必须包含 `idx` 和 `query` 字段
 - 训练数据必须包含 `id`, `original_code`, `optimized_code` 字段
@@ -900,11 +970,13 @@ python -c "import jsonlines; f=jsonlines.open('processed_data/riscv/test.jsonl')
 #### 4. API 密钥未配置
 
 **警告信息**：
+
 ```
 ⚠ 检测到占位符 API 密钥，请确保已配置真实的 API 密钥
 ```
 
 **解决方案**：
+
 ```bash
 # 1. 编辑 evol_query.py
 vim sbllm/sbllm/evol_query.py
@@ -916,19 +988,22 @@ vim sbllm/sbllm/evol_query.py
 ```
 
 **API 密钥获取**：
-- OpenAI: https://platform.openai.com/api-keys
-- Gemini: https://makersuite.google.com/app/apikey
-- DeepSeek: https://platform.deepseek.com/api_keys
-- CodeLlama: https://deepinfra.com/
+
+- OpenAI: <https://platform.openai.com/api-keys>
+- Gemini: <https://makersuite.google.com/app/apikey>
+- DeepSeek: <https://platform.deepseek.com/api_keys>
+- CodeLlama: <https://deepinfra.com/>
 
 #### 5. Python 依赖缺失
 
 **错误信息**：
+
 ```
 ✗ Python 包缺失: faiss-cpu
 ```
 
 **解决方案**：
+
 ```bash
 # 安装所有依赖
 pip install -r requirement.txt
@@ -941,11 +1016,13 @@ pip install sentence-transformers==2.2.2
 #### 6. 编译失败
 
 **错误信息**：
+
 ```
 Assembly failed: error: invalid instruction
 ```
 
 **解决方案**：
+
 ```bash
 # 1. 检查代码格式
 # 确保是有效的 RISC-V 汇编或 C 代码
@@ -960,11 +1037,13 @@ Assembly failed: error: invalid instruction
 #### 7. 向量检索失败
 
 **错误信息**：
+
 ```
 Failed to load embedding model: all-MiniLM-L6-v2
 ```
 
 **解决方案**：
+
 ```bash
 # 1. 检查网络连接（首次使用需要下载模型）
 ping huggingface.co
@@ -982,11 +1061,13 @@ bash run_riscv.sh \
 #### 8. 内存不足
 
 **错误信息**：
+
 ```
 MemoryError: Unable to allocate array
 ```
 
 **解决方案**：
+
 - 减少并行进程数：`--process_number 4`
 - 减少候选数量：`--generation_number 3`
 - 使用 BM25 检索（不使用向量检索）：`--retrieval_method bm25`
@@ -994,11 +1075,13 @@ MemoryError: Unable to allocate array
 #### 9. 执行超时
 
 **错误信息**：
+
 ```
 Execution timeout for candidate_0.bin
 ```
 
 **解决方案**：
+
 - 检查代码是否有无限循环
 - 增加超时时间（修改 `qemu_evaluator.py` 中的 `timeout=10`）
 - 检查输入数据是否过大
@@ -1053,6 +1136,7 @@ print(f"执行时间: {time}s, 正确性: {correct}")
 **性能提升**：50-80%（重复评估场景）
 
 **使用方式**：
+
 ```python
 evaluator = QEMURISCVEvaluator(
     qemu_path=qemu_path,
@@ -1068,6 +1152,7 @@ evaluator = QEMURISCVEvaluator(
 **性能提升**：2-4 倍（取决于 CPU 核心数）
 
 **使用方式**：
+
 ```python
 evaluator = QEMURISCVEvaluator(
     qemu_path=qemu_path,
@@ -1087,6 +1172,7 @@ results = evaluator.evaluate_candidates_parallel(
 #### 3. 并行进程数配置
 
 在 `evaluate.py` 中调整 `--process_number` 参数：
+
 ```bash
 python evaluate.py \
     --process_number 8 \  # 根据 CPU 核心数调整
@@ -1104,6 +1190,7 @@ python evaluate.py \
 **性能提升**：首次构建后，后续加载可节省 90%+ 时间
 
 **使用方式**：
+
 ```bash
 # 首次运行：自动构建并保存索引
 python merge.py \
@@ -1127,6 +1214,7 @@ python merge.py \
 | **混合检索** | ⚡⚡ 中等 | ⭐⭐⭐ 高 | **推荐使用**，平衡速度和准确性 |
 
 **性能对比**（1000 条训练数据）：
+
 - BM25：~0.1 秒/查询
 - 向量检索：~0.3 秒/查询
 - 混合检索：~0.4 秒/查询
@@ -1152,6 +1240,7 @@ python merge.py \
 ### 性能基准测试
 
 **测试环境**：
+
 - CPU: Intel i7-9700K (8 核)
 - RAM: 32GB
 - 测试数据: 100 个候选代码
@@ -1201,6 +1290,7 @@ python merge.py \
 训练数据用于构建优化模式知识库，支持混合检索。
 
 **必需字段**：
+
 - `id`: 唯一标识符
 - `original_code`: 原始代码
 - `optimized_code`: 优化后的代码
@@ -1209,12 +1299,14 @@ python merge.py \
 - `edit_opt_abs`: 新增部分（df）的抽象表示（tokenized 列表）
 
 **可选字段**：
+
 - `source`: 来源库或项目
 - `optimization_type`: 优化类型（如"条件分支优化"）
 - `optimization_description`: 优化描述
 - `text_representation`: 用于向量检索的文本表示
 
 **数据预处理脚本示例**：
+
 ```python
 import jsonlines
 from sbllm.merge import abstract_cpp_code, tokenize_cpp_code
@@ -1250,14 +1342,17 @@ with jsonlines.open('train_raw.jsonl') as reader, \
 测试数据包含待优化的 RISC-V 代码。
 
 **必需字段**：
+
 - `idx`: 唯一索引
 - `query`: 待优化的 RISC-V 代码（**必须包含注释**）
 
 **可选字段**：
+
 - `reference`: 参考优化代码（用于对比）
 - `input`: 测试输入数据
 
 **示例**：
+
 ```json
 {
     "idx": 0,
@@ -1271,15 +1366,18 @@ with jsonlines.open('train_raw.jsonl') as reader, \
 #### 评估指标说明
 
 **功能正确性（acc）**：
+
 - `1`: 功能完全正确（输出匹配）
 - `0`: 功能不正确（输出不匹配或执行失败）
 
 **执行加速比（speedup_ratio）**：
+
 - 公式：`OPT = 1 - new_time / old_time`
 - 正值：性能提升
 - 负值：性能下降
 
 **代码体积缩减率（size_reduction_ratio）**：
+
 - 公式：`(original_size - new_size) / original_size`
 - 正值：体积减小
 - 负值：体积增大
@@ -1287,12 +1385,14 @@ with jsonlines.open('train_raw.jsonl') as reader, \
 #### 结果文件说明
 
 **results.jsonl**：最终优化结果汇总
+
 - `best_result`: 最佳优化结果
 - `best_candidates`: 最佳候选列表（按性能排序）
 - `pattern`: Similar 和 Different Pattern
 - `retrieval`: 检索来源信息
 
 **test_execution_*.report**：详细评估报告
+
 - 包含所有候选的评估结果
 - 包含执行时间和正确性信息
 
@@ -1301,6 +1401,7 @@ with jsonlines.open('train_raw.jsonl') as reader, \
 #### 1. 代码注释编写
 
 **好的注释示例**：
+
 ```riscv
 # 计算数组元素之和
 # 优化方向：减少内存访问，利用 RISC-V 流水线特性
@@ -1312,6 +1413,7 @@ sum_array:
 ```
 
 **不好的注释**：
+
 ```riscv
 # 求和函数
 .text
@@ -1367,6 +1469,6 @@ python -m pytest tests/
 ## 📚 相关资源
 
 - **SBLLM 原始论文**：Search-Based LLMs for Code Optimization (ICSE'25)
-- **RISC-V 官方文档**：https://riscv.org/
-- **QEMU 文档**：https://www.qemu.org/docs/
+- **RISC-V 官方文档**：<https://riscv.org/>
+- **QEMU 文档**：<https://www.qemu.org/docs/>
 - **测试教程**：`TEST_TUTORIAL.md` - 详细的测试脚本使用指南

@@ -1,32 +1,35 @@
-# Sensitive Files
-.env
-.env.*
-! .env.example
+# Sensitive Files (Recursive)
+**/.env
+**/.env.*
+!**/.env.example
 
-# Virtual Environments
-.venv/
-venv/
-env/
-__pycache__/
-*.pyc
+# Virtual Environments (Recursive)
+**/.venv/
+**/venv/
+**/env/
+**/__pycache__/
+**/*.pyc
 
-# IDEs
-.vscode/
-.idea/
+# IDEs (Recursive)
+**/.vscode/
+**/.idea/
 
-# Large/Temporary Files
-*.log
-*.xlsx
-*.csv
-*.pt
-*.bin
-*.out
-sbllm_repo/.git/
-sbllm_repo/sbllm/.venv/
-sbllm_repo/VecIntrinBench/.git
-rvv-bench/.git
+# Large/Temporary/Generated Files (Recursive)
+**/*.log
+**/*.xlsx
+**/*.csv
+**/*.pt
+**/*.bin
+**/*.out
+**/*.bak
+**/*.tmp
+**/*.zip
+**/*.docx
+
+# Specific Directories
 outputs/
 logs/
 temp/
 tmp/
-
+sbllm_repo/VecIntrinBench/.git
+rvv-bench/.git
